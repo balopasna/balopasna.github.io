@@ -9,25 +9,28 @@
 body{
     font-family: Arial, sans-serif;
     background:#f4f4f4;
-    text-align:center;
     margin:0;
 }
+
 header{
     background:#ff9933;
     color:white;
+    text-align:center;
     padding:20px;
 }
+
 .container{
-    padding:20px;
+    padding:15px;
 }
+
 .card{
     background:white;
-    margin:10px;
+    margin:10px 0;
     padding:15px;
     border-radius:10px;
     box-shadow:0 2px 5px rgba(0,0,0,0.2);
-    text-align:left;
 }
+
 button{
     background:#ff9933;
     color:white;
@@ -37,6 +40,7 @@ button{
     cursor:pointer;
     margin:5px;
 }
+
 .center{
     text-align:center;
 }
@@ -49,8 +53,7 @@ Pi.init({ version: "2.0", sandbox: false });
 
 async function loginPi() {
   try {
-    const scopes = ['username'];
-    const auth = await Pi.authenticate(scopes, function(){});
+    const auth = await Pi.authenticate(['username'], function(){});
     alert("Welcome " + auth.user.username);
   } catch (err) {
     alert("Login failed");
@@ -93,6 +96,10 @@ window.onload = function(){
 ભર્ગો દેવસ્ય ધીમહિ ।<br>
 ધિયો યો નઃ પ્રચોદયાત્ ॥
 </p>
+
+<a href="https://www.youtube.com/results?search_query=Gayatri+Mantra" target="_blank">
+<button>🎥 વિડિયો જુઓ</button>
+</a>
 </div>
 
 <div class="card">
@@ -101,10 +108,15 @@ window.onload = function(){
 ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>
 ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥
 </p>
+
+<a href="https://www.youtube.com/results?search_query=Mahamrityunjaya+Mantra" target="_blank">
+<button>🎥 વિડિયો જુઓ</button>
+</a>
 </div>
 
 <div class="card">
 <h2>☀️ 12 સૂર્યનમસ્કાર મંત્ર</h2>
+
 <p>1. ॐ मित्राय नमः</p>
 <p>2. ॐ रवये नमः</p>
 <p>3. ॐ सूर्याय नमः</p>
@@ -117,28 +129,43 @@ window.onload = function(){
 <p>10. ॐ सवित्रे नमः</p>
 <p>11. ॐ अर्काय नमः</p>
 <p>12. ॐ भास्कराय नमः</p>
+
+<a href="https://www.youtube.com/results?search_query=Surya+Namaskar" target="_blank">
+<button>🎥 વિડિયો જુઓ</button>
+</a>
 </div>
 
 <div class="card">
 <h2>🌬️ અનુલોમ વિલોમ</h2>
+
 <p>
-ડાબા નાસિકાથી શ્વાસ લો,
-જમણા નાસિકાથી છોડો.
-પછી જમણાથી લો,
-ડાબાથી છોડો.
+ડાબા નાસિકાથી શ્વાસ લો.<br>
+જમણા નાસિકાથી છોડો.<br>
+પછી જમણાથી લો અને ડાબાથી છોડો.<br>
 દરરોજ 5 થી 10 મિનિટ કરો.
 </p>
+
+<a href="https://www.youtube.com/results?search_query=Anulom+Vilom+Pranayama" target="_blank">
+<button>🎥 વિડિયો જુઓ</button>
+</a>
 </div>
 
 <div class="card center">
 <h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>
+
 <p>કુલ ઉપાસના: <span id="count">0</span></p>
-<button onclick="countUpasana()">આજની ઉપાસના પૂર્ણ</button>
+
+<button onclick="countUpasana()">
+આજની ઉપાસના પૂર્ણ
+</button>
 </div>
 
 <div class="card center">
 <h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
-<p>આ વિભાગમાં ભવિષ્યમાં Audio અને Music ઉમેરવામાં આવશે.</p>
+
+<a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
+<button>🎵 સંગીત સાંભળો</button>
+</a>
 </div>
 
 </div>
