@@ -6,6 +6,25 @@
 <title>Balopasna</title>
 
 <style>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+<script>
+Pi.init({ version: "2.0", sandbox: false });
+
+async function loginPi() {
+  try {
+    const scopes = ['username', 'payments'];
+    const auth = await Pi.authenticate(scopes, function(payment) {});
+    alert("Welcome " + auth.user.username);
+  } catch (err) {
+    alert("Login failed");
+  }
+}
+</script>
+
+<button onclick="loginPi()">
+  Login with Pi
+</button>
 body{
     font-family: Arial, sans-serif;
     background:#f4f4f4;
