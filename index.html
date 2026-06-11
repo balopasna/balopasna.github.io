@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="gu">
 <head>
@@ -6,25 +7,6 @@
 <title>Balopasna</title>
 
 <style>
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-
-<script>
-Pi.init({ version: "2.0", sandbox: false });
-
-async function loginPi() {
-  try {
-    const scopes = ['username', 'payments'];
-    const auth = await Pi.authenticate(scopes, function(payment) {});
-    alert("Welcome " + auth.user.username);
-  } catch (err) {
-    alert("Login failed");
-  }
-}
-</script>
-
-<button onclick="loginPi()">
-  Login with Pi
-</button>
 body{
     font-family: Arial, sans-serif;
     background:#f4f4f4;
@@ -57,8 +39,26 @@ button{
     padding:10px 20px;
     border-radius:5px;
     cursor:pointer;
+    margin:5px;
 }
 </style>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+<script>
+Pi.init({ version: "2.0", sandbox: false });
+
+async function loginPi() {
+  try {
+    const scopes = ['username'];
+    const auth = await Pi.authenticate(scopes, function(){});
+    alert("Welcome " + auth.user.username);
+  } catch (err) {
+    alert("Login failed");
+  }
+}
+</script>
+
 </head>
 
 <body>
@@ -102,6 +102,10 @@ button{
 
 <button onclick="alert('જય શ્રી રામ 🚩')">
     આજે ઉપાસના શરૂ કરો
+</button>
+
+<button onclick="loginPi()">
+    Login with Pi
 </button>
 
 </div>
