@@ -207,7 +207,53 @@ window.onload = function(){
 
 <p>Balopasna App ને સહયોગ આપો</p>
 
-<button onclick="payPi()">
+<script>
+async function payPi() {
+  alert("Donate button clicked");
+
+  try {
+    if (typeof Pi === "undefined") {
+      alert("Pi SDK Load થયું નથી");
+      return;
+    }
+
+    await Pi.createPayment(
+      {
+        amount: 0.01,
+        memo: "Balopasna Donation",
+        metadata: {
+          purpose: "donation"
+        }
+      },
+      {
+        onReadyForServerApproval(paymentId) {
+          alert("Payment Approval Ready: " + paymentId);
+          console.log(paymentId);
+        },
+
+        onReadyForServerCompletion(paymentId, txid) {
+          alert("Payment Successful!");
+          console.log(txid);
+        },
+
+        onCancel(paymentId) {
+          alert("Payment Cancelled");
+          console.log(paymentId);
+        },
+
+        onError(error) {
+          alert("Payment Error: " + JSON.stringify(error));
+          console.log(error);
+        }
+      }
+    );
+
+  } catch (e) {
+    alert("Catch Error: " + e.message);
+    console.log(e);
+  }
+}
+</script>
 Donate 0.01 Pi
 </button>
 </div>
