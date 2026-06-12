@@ -1,176 +1,226 @@
-<!DOCTYPE html>  <html lang="gu">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Balopasna</title>  <style>  
-body{  
-    font-family: Arial, sans-serif;  
-    background:#f4f4f4;  
-    margin:0;  
-}  
-  
-header{  
-    background:#ff9933;  
-    color:white;  
-    text-align:center;  
-    padding:20px;  
-}  
-  
-.container{  
-    padding:15px;  
-}  
-  
-.card{  
-    background:white;  
-    margin:10px 0;  
-    padding:15px;  
-    border-radius:10px;  
-    box-shadow:0 2px 5px rgba(0,0,0,0.2);  
-}  
-  
-button{  
-    background:#ff9933;  
-    color:white;  
-    border:none;  
-    padding:10px 20px;  
-    border-radius:5px;  
-    cursor:pointer;  
-    margin:5px;  
-}  
-  
-.center{  
-    text-align:center;  
-}  
-</style>  <script src="https://sdk.minepi.com/pi-sdk.js"></script>  <script>  
-Pi.init({ version: "2.0", sandbox: false });  
-  
-async function loginPi() {  
-  try {  
-    const auth = await Pi.authenticate(['username'], function(){});  
-    alert("Welcome " + auth.user.username);  
-  } catch (err) {  
-    alert("Login failed");  
-  }  
-}  
-  
-async function payPi() {  
-  try {  
-    await Pi.createPayment(  
-      {  
-        amount: 0.01,  
-        memo: "Balopasna Donation",  
-        metadata: { purpose: "donation" }  
-      },  
-      {  
-        onReadyForServerApproval(paymentId) {  
-          console.log(paymentId);  
-        },  
-        onReadyForServerCompletion(paymentId, txid) {  
-          alert("Payment Successful!");  
-        },  
-        onCancel() {  
-          alert("Payment Cancelled");  
-        },  
-        onError(error) {  
-          console.log(error);  
-          alert("Payment Error");  
-        }  
-      }  
-    );  
-  } catch (e) {  
-    console.log(e);  
-  }  
-}  
-  
-let count = localStorage.getItem("upasana") || 0;  
-  
-function countUpasana(){  
-    count++;  
-    localStorage.setItem("upasana", count);  
-    document.getElementById("count").innerText = count;  
-}  
-  
-let countdown;  
-  
-function startTimer(seconds){  
-    clearInterval(countdown);  
-  
-    let time = seconds;  
-  
-    countdown = setInterval(function(){  
-  
-        document.getElementById("timer").innerText = time;  
-  
-        if(time <= 0){  
-            clearInterval(countdown);  
-            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");  
-        }  
-  
-        time--;  
-  
-    },1000);  
-}  
-  
-window.onload = function(){  
-    document.getElementById("count").innerText = count;  
-}  
-</script>  </head>  <body>  <header>  
-<h1>🕉️ Balopasna</h1>  
-<p>શરીર, મન અને આત્માની ઉપાસના</p>  
-</header>  <div class="container">  <div class="center">  
-<button onclick="loginPi()">Login with Pi</button>  
-</div>  <div class="card">  
-<h2>🕉️ ગાયત્રી મંત્ર</h2>  
-<p>  
-ૐ ભૂર્ ભુવઃ સ્વઃ ।<br>  
-તત્ સવિતુર્વરેણ્યં ।<br>  
-ભર્ગો દેવસ્ય ધીમહિ ।<br>  
-ધિયો યો નઃ પ્રચોદયાત્ ॥  
-</p>  
-</div>  <div class="card">  
-<h2>🙏 મહામૃત્યુંજય મંત્ર</h2>  
-<p>  
-ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>  
-ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥  
-</p>  
-</div>  <div class="card">  
-<h2>☀️ 12 સૂર્યનમસ્કાર મંત્ર</h2>  <p>1. ॐ मित्राय नमः</p>  
-<p>2. ॐ रवये नमः</p>  
-<p>3. ॐ सूर्याय नमः</p>  
-<p>4. ॐ भानवे नमः</p>  
-<p>5. ॐ खगाय नमः</p>  
-<p>6. ॐ पूष्णे नमः</p>  
-<p>7. ॐ हिरण्यगर्भाय नमः</p>  
-<p>8. ॐ मरीचये नमः</p>  
-<p>9. ॐ आदित्याय नमः</p>  
-<p>10. ॐ सवित्रे नमः</p>  
-<p>11. ॐ अर्काय नमः</p>  
-<p>12. ॐ भास्कराय नमः</p>  
-</div>  <div class="card">  
-<h2>🌬️ અનુલોમ વિલોમ</h2>  
-<p>  
-ડાબા નાસિકાથી શ્વાસ લો.<br>  
-જમણા નાસિકાથી છોડો.<br>  
-પછી જમણાથી લો અને ડાબાથી છોડો.<br>  
-દરરોજ 5 થી 10 મિનિટ કરો.  
-</p>  
-</div>  <div class="card center">  
-<h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>  
-<p>કુલ ઉપાસના: <span id="count">0</span></p>  <button onclick="countUpasana()">  
-આજની ઉપાસના પૂર્ણ  
-</button>  
-</div>  <div class="card center">  
-<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>  <p id="timer">60</p>  <button onclick="startTimer(60)">1 મિનિટ</button>
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balopasna</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+}
+
+header{
+    background:#ff9933;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    padding:15px;
+}
+
+.card{
+    background:white;
+    margin:10px 0;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+button{
+    background:#ff9933;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.center{
+    text-align:center;
+}
+</style>
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+<script>
+Pi.init({ version: "2.0", sandbox: false });
+
+async function loginPi() {
+  try {
+    const auth = await Pi.authenticate(['username'], function(){});
+    alert("Welcome " + auth.user.username);
+  } catch (err) {
+    alert("Login failed");
+  }
+}
+
+async function payPi() {
+  try {
+    await Pi.createPayment(
+      {
+        amount: 0.01,
+        memo: "Balopasna Donation",
+        metadata: { purpose: "donation" }
+      },
+      {
+        onReadyForServerApproval(paymentId) {
+          console.log(paymentId);
+        },
+        onReadyForServerCompletion(paymentId, txid) {
+          alert("Payment Successful!");
+        },
+        onCancel() {
+          alert("Payment Cancelled");
+        },
+        onError(error) {
+          console.log(error);
+          alert("Payment Error");
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+let count = localStorage.getItem("upasana") || 0;
+
+function countUpasana(){
+    count++;
+    localStorage.setItem("upasana", count);
+    document.getElementById("count").innerText = count;
+}
+
+let countdown;
+
+function startTimer(seconds){
+    clearInterval(countdown);
+
+    let time = seconds;
+
+    countdown = setInterval(function(){
+
+        document.getElementById("timer").innerText = time;
+
+        if(time <= 0){
+            clearInterval(countdown);
+            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
+        }
+
+        time--;
+
+    },1000);
+}
+
+window.onload = function(){
+    document.getElementById("count").innerText = count;
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+<h1>🕉️ Balopasna</h1>
+<p>શરીર, મન અને આત્માની ઉપાસના</p>
+</header>
+
+<div class="container">
+
+<div class="center">
+<button onclick="loginPi()">Login with Pi</button>
+</div>
+
+<div class="card">
+<h2>🕉️ ગાયત્રી મંત્ર</h2>
+<p>
+ૐ ભૂર્ ભુવઃ સ્વઃ ।<br>
+તત્ સવિતુર્વરેણ્યં ।<br>
+ભર્ગો દેવસ્ય ધીમહિ ।<br>
+ધિયો યો નઃ પ્રચોદયાત્ ॥
+</p>
+</div>
+
+<div class="card">
+<h2>🙏 મહામૃત્યુંજય મંત્ર</h2>
+<p>
+ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>
+ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥
+</p>
+</div>
+
+<div class="card">
+<h2>☀️ 12 સૂર્યનમસ્કાર મંત્ર</h2>
+
+<p>1. ॐ मित्राय नमः</p>
+<p>2. ॐ रवये नमः</p>
+<p>3. ॐ सूर्याय नमः</p>
+<p>4. ॐ भानवे नमः</p>
+<p>5. ॐ खगाय नमः</p>
+<p>6. ॐ पूष्णे नमः</p>
+<p>7. ॐ हिरण्यगर्भाय नमः</p>
+<p>8. ॐ मरीचये नमः</p>
+<p>9. ॐ आदित्याय नमः</p>
+<p>10. ॐ सवित्रे नमः</p>
+<p>11. ॐ अर्काय नमः</p>
+<p>12. ॐ भास्कराय नमः</p>
+</div>
+
+<div class="card">
+<h2>🌬️ અનુલોમ વિલોમ</h2>
+<p>
+ડાબા નાસિકાથી શ્વાસ લો.<br>
+જમણા નાસિકાથી છોડો.<br>
+પછી જમણાથી લો અને ડાબાથી છોડો.<br>
+દરરોજ 5 થી 10 મિનિટ કરો.
+</p>
+</div>
+
+<div class="card center">
+<h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>
+<p>કુલ ઉપાસના: <span id="count">0</span></p>
+
+<button onclick="countUpasana()">
+આજની ઉપાસના પૂર્ણ
+</button>
+</div>
+
+<div class="card center">
+<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
+
+<p id="timer">60</p>
+
+<button onclick="startTimer(60)">1 મિનિટ</button>
 <button onclick="startTimer(300)">5 મિનિટ</button>
 <button onclick="startTimer(600)">10 મિનિટ</button>
+</div>
 
-</div>  <div class="card center">  
-<h2>💰 Pi Donation</h2>  <p>Balopasna App ને સહયોગ આપો</p>  <button onclick="payPi()">  
-Donate 0.01 Pi  
-</button>  
-</div>  <div class="card center">  
-<h2>🎵 ભજન અને ધ્યાન સંગીત</h2>  <a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">  
-<button>🎵 સંગીત સાંભળો</button>  
-</a>  
-</div>  </div>  </body>  
-</html>
+<div class="card center">
+<h2>💰 Pi Donation</h2>
+
+<p>Balopasna App ને સહયોગ આપો</p>
+
+<button onclick="payPi()">
+Donate 0.01 Pi
+</button>
+</div>
+
+<div class="card center">
+<h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
+
+<a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
+<button>🎵 સંગીત સાંભળો</button>
+</a>
+</div>
+
+</div>
+
+</body>
+    </html>
