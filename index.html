@@ -59,7 +59,35 @@ async function loginPi() {
     alert("Login failed");
   }
 }
-
+async function payPi() {
+  try {
+    await Pi.createPayment(
+      {
+        amount: 0.01,
+        memo: "Balopasna Test Payment",
+        metadata: { purpose: "test" }
+      },
+      {
+        onReadyForServerApproval: function(paymentId) {
+          console.log("Approval:", paymentId);
+        },
+        onReadyForServerCompletion: function(paymentId, txid) {
+          console.log("Completed:", txid);
+          alert("Payment Successful!");
+        },
+        onCancel: function(paymentId) {
+          alert("Payment Cancelled");
+        },
+        onError: function(error) {
+          alert("Payment Error");
+          console.log(error);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+        }
 let count = localStorage.getItem("upasana") || 0;
 
 function countUpasana(){
@@ -180,7 +208,15 @@ window.onload = function(){
 <button onclick="startTimer(60)">1 મિનિટ</button>
 <button onclick="startTimer(300)">5 મિનિટ</button>
 <button onclick="startTimer(600)">10 મિનિટ</button>
-</div>
+<div class="card center">
+<h2>💰 Pi Donation</h2>
+
+<p>Balopasna App ને સહયોગ આપો</p>
+
+<button onclick="payPi()">
+Donate 0.01 Pi
+</button>
+</div></div>
 
 <script>
 let countdown;
