@@ -59,41 +59,63 @@ async function loginPi() {
     alert("Login failed");
   }
 }
+
 async function payPi() {
   try {
     await Pi.createPayment(
       {
         amount: 0.01,
-        memo: "Balopasna Test Payment",
-        metadata: { purpose: "test" }
+        memo: "Balopasna Donation",
+        metadata: { purpose: "donation" }
       },
       {
-        onReadyForServerApproval: function(paymentId) {
-          console.log("Approval:", paymentId);
+        onReadyForServerApproval(paymentId) {
+          console.log(paymentId);
         },
-        onReadyForServerCompletion: function(paymentId, txid) {
-          console.log("Completed:", txid);
+        onReadyForServerCompletion(paymentId, txid) {
           alert("Payment Successful!");
         },
-        onCancel: function(paymentId) {
+        onCancel() {
           alert("Payment Cancelled");
         },
-        onError: function(error) {
-          alert("Payment Error");
+        onError(error) {
           console.log(error);
+          alert("Payment Error");
         }
       }
     );
   } catch (e) {
     console.log(e);
   }
-        }
+}
+
 let count = localStorage.getItem("upasana") || 0;
 
 function countUpasana(){
     count++;
     localStorage.setItem("upasana", count);
     document.getElementById("count").innerText = count;
+}
+
+let countdown;
+
+function startTimer(seconds){
+    clearInterval(countdown);
+
+    let time = seconds;
+
+    countdown = setInterval(function(){
+
+        document.getElementById("timer").innerText = time;
+
+        if(time <= 0){
+            clearInterval(countdown);
+            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
+        }
+
+        time--;
+
+    },1000);
 }
 
 window.onload = function(){
@@ -124,10 +146,6 @@ window.onload = function(){
 ભર્ગો દેવસ્ય ધીમહિ ।<br>
 ધિયો યો નઃ પ્રચોદયાત્ ॥
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Gayatri+Mantra" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
 </div>
 
 <div class="card">
@@ -136,10 +154,6 @@ window.onload = function(){
 ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>
 ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Mahamrityunjaya+Mantra" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
 </div>
 
 <div class="card">
@@ -157,34 +171,44 @@ window.onload = function(){
 <p>10. ॐ सवित्रे नमः</p>
 <p>11. ॐ अर्काय नमः</p>
 <p>12. ॐ भास्कराय नमः</p>
-
-<a href="https://www.youtube.com/results?search_query=Surya+Namaskar" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
 </div>
 
 <div class="card">
 <h2>🌬️ અનુલોમ વિલોમ</h2>
-
 <p>
 ડાબા નાસિકાથી શ્વાસ લો.<br>
 જમણા નાસિકાથી છોડો.<br>
 પછી જમણાથી લો અને ડાબાથી છોડો.<br>
 દરરોજ 5 થી 10 મિનિટ કરો.
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Anulom+Vilom+Pranayama" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
 </div>
 
 <div class="card center">
 <h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>
-
 <p>કુલ ઉપાસના: <span id="count">0</span></p>
 
 <button onclick="countUpasana()">
 આજની ઉપાસના પૂર્ણ
+</button>
+</div>
+
+<div class="card center">
+<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
+
+<p id="timer">60</p>
+
+<button onclick="startTimer(60)">1 મિનિટ</button>
+<button onclick="startTimer(300)">5 મિનિટ</button>
+<button onclick="startTimer(600)">10 મિનિટ</button>
+</div>
+
+<div class="card center">
+<h2>💰 Pi Donation</h2>
+
+<p>Balopasna App ને સહયોગ આપો</p>
+
+<button onclick="payPi()">
+Donate 0.01 Pi
 </button>
 </div>
 
@@ -200,43 +224,3 @@ window.onload = function(){
 
 </body>
 </html>
-<div class="card center">
-<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
-
-<p id="timer">60</p>
-
-<button onclick="startTimer(60)">1 મિનિટ</button>
-<button onclick="startTimer(300)">5 મિનિટ</button>
-<button onclick="startTimer(600)">10 મિનિટ</button>
-<div class="card center">
-<h2>💰 Pi Donation</h2>
-
-<p>Balopasna App ને સહયોગ આપો</p>
-
-<button onclick="payPi()">
-Donate 0.01 Pi
-</button>
-</div></div>
-
-<script>
-let countdown;
-
-function startTimer(seconds){
-    clearInterval(countdown);
-
-    let time = seconds;
-
-    countdown = setInterval(function(){
-
-        document.getElementById("timer").innerText = time;
-
-        if(time <= 0){
-            clearInterval(countdown);
-            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
-        }
-
-        time--;
-
-    },1000);
-}
-    </script>
