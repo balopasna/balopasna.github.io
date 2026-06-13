@@ -41,35 +41,107 @@ button{
     margin:5px;
 }
 
+button:hover{
+    opacity:0.9;
+}
+
 .center{
     text-align:center;
+}
+
+#timer{
+    font-size:32px;
+    font-weight:bold;
 }
 </style>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <script>
-Pi.init({ version: "2.0", sandbox: false });
 
-async function loginPi() {
-  try {
-    const auth = await Pi.authenticate(['username'], function(){});
-    alert("Welcome " + auth.user.username);
-  } catch (err) {
-    alert("Login failed");
-  }
+Pi.init({
+    version: "2.0",
+    sandbox: false
+});
+
+let currentUser = null;
+
+async function loginPi(){
+
+    try{
+
+        const auth = await Pi.authenticate(
+            ['username','payments'],
+            function(payment){}
+        );
+
+        currentUser = auth.user;
+
+        alert("Welcome " + auth.user.username);
+
+    }catch(err){
+
+        console.log(err);
+        alert("Login Failed");
+
+    }
+
+}
+
+async function payPi(){
+
+    if(!currentUser){
+        alert("પહેલા Login with Pi કરો");
+        return;
+    }
+
+    alert("Pi Payment માટે Backend Server જરૂરી છે.");
 }
 
 let count = localStorage.getItem("upasana") || 0;
 
 function countUpasana(){
+
     count++;
+
     localStorage.setItem("upasana", count);
+
     document.getElementById("count").innerText = count;
+
+}
+
+let countdown;
+
+function startTimer(seconds){
+
+    clearInterval(countdown);
+
+    let time = seconds;
+
+    document.getElementById("timer").innerText = time;
+
+    countdown = setInterval(function(){
+
+        time--;
+
+        document.getElementById("timer").innerText = time;
+
+        if(time <= 0){
+
+            clearInterval(countdown);
+
+            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
+
+        }
+
+    },1000);
+
 }
 
 window.onload = function(){
+
     document.getElementById("count").innerText = count;
+
 }
 </script>
 
@@ -84,12 +156,13 @@ window.onload = function(){
 
 <div class="container">
 
-<div class="center">
+<div class="card center">
 <button onclick="loginPi()">Login with Pi</button>
 </div>
 
 <div class="card">
 <h2>🕉️ ગાયત્રી મંત્ર</h2>
+
 <p>
 ૐ ભૂર્ ભુવઃ સ્વઃ ।<br>
 તત્ સવિતુર્વરેણ્યં ।<br>
@@ -100,10 +173,12 @@ window.onload = function(){
 <a href="https://www.youtube.com/results?search_query=Gayatri+Mantra" target="_blank">
 <button>🎥 વિડિયો જુઓ</button>
 </a>
+
 </div>
 
 <div class="card">
 <h2>🙏 મહામૃત્યુંજય મંત્ર</h2>
+
 <p>
 ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>
 ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥
@@ -112,6 +187,7 @@ window.onload = function(){
 <a href="https://www.youtube.com/results?search_query=Mahamrityunjaya+Mantra" target="_blank">
 <button>🎥 વિડિયો જુઓ</button>
 </a>
+
 </div>
 
 <div class="card">
@@ -127,9 +203,11 @@ window.onload = function(){
 <a href="https://www.youtube.com/results?search_query=Anulom+Vilom+Pranayama" target="_blank">
 <button>🎥 વિડિયો જુઓ</button>
 </a>
+
 </div>
 
 <div class="card center">
+
 <h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>
 
 <p>કુલ ઉપાસના: <span id="count">0</span></p>
@@ -137,26 +215,25 @@ window.onload = function(){
 <button onclick="countUpasana()">
 આજની ઉપાસના પૂર્ણ
 </button>
+
 </div>
 
 <div class="card center">
-<h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
 
-
-<a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
-<button>🎵 સંગીત સાંભળો</button>
-</a>
-    <div class="card center">
 <h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
 
 <p id="timer">60</p>
 
 <button onclick="startTimer(60)">1 મિનિટ</button>
+
 <button onclick="startTimer(300)">5 મિનિટ</button>
+
 <button onclick="startTimer(600)">10 મિનિટ</button>
+
 </div>
 
 <div class="card center">
+
 <h2>💰 Pi Donation</h2>
 
 <p>Balopasna App ને સહયોગ આપો</p>
@@ -164,104 +241,17 @@ window.onload = function(){
 <button onclick="payPi()">
 Donate 0.01 Pi
 </button>
+
 </div>
 
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<div class="card center">
 
-<script>
-Pi.init({ version: "2.0", sandbox: false });
+<h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
 
-async function loginPi() {
-  try {
-    const auth = await Pi.authenticate(
-      ['username', 'payments'],
-      function(payment) {
-        console.log(payment);
-      }
-    );
+<a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
+<button>🎵 સંગીત સાંભળો</button>
+</a>
 
-    alert("Welcome " + auth.user.username);
-
-  } catch (err) {
-    alert("Login failed");
-    console.log(err);
-  }
-}
-
-async function payPi() {
-  alert("Donate button clicked");
-
-  try {
-    await Pi.createPayment(
-      {
-        amount: 0.01,
-        memo: "Balopasna Donation",
-        metadata: {
-          purpose: "donation"
-        }
-      },
-      {
-        onReadyForServerApproval(paymentId) {
-          alert("Payment Started");
-          console.log(paymentId);
-        },
-
-        onReadyForServerCompletion(paymentId, txid) {
-          alert("Payment Successful!");
-          console.log(txid);
-        },
-
-        onCancel(paymentId) {
-          alert("Payment Cancelled");
-          console.log(paymentId);
-        },
-
-        onError(error) {
-          alert("Payment Error: " + JSON.stringify(error));
-          console.log(error);
-        }
-      }
-    );
-
-  } catch (e) {
-    alert("Catch Error: " + e.message);
-    console.log(e);
-  }
-}
-
-let count = localStorage.getItem("upasana") || 0;
-
-function countUpasana(){
-    count++;
-    localStorage.setItem("upasana", count);
-    document.getElementById("count").innerText = count;
-}
-
-let countdown;
-
-function startTimer(seconds){
-    clearInterval(countdown);
-
-    let time = seconds;
-
-    countdown = setInterval(function(){
-
-        document.getElementById("timer").innerText = time;
-
-        if(time <= 0){
-            clearInterval(countdown);
-            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
-        }
-
-        time--;
-
-    },1000);
-}
-
-window.onload = function(){
-    document.getElementById("count").innerText = count;
-}
-</script>
 </div>
 
 </div>
