@@ -142,9 +142,94 @@ window.onload = function(){
 <div class="card center">
 <h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
 
+
 <a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
 <button>🎵 સંગીત સાંભળો</button>
 </a>
+    <div class="card center">
+<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
+
+<p id="timer">60</p>
+
+<button onclick="startTimer(60)">1 મિનિટ</button>
+<button onclick="startTimer(300)">5 મિનિટ</button>
+<button onclick="startTimer(600)">10 મિનિટ</button>
+</div>
+
+<div class="card center">
+<h2>💰 Pi Donation</h2>
+
+<p>Balopasna App ને સહયોગ આપો</p>
+
+<button onclick="payPi()">
+Donate 0.01 Pi
+</button>
+</div>
+
+<script>
+let countdown;
+
+function startTimer(seconds){
+    clearInterval(countdown);
+
+    let time = seconds;
+
+    countdown = setInterval(function(){
+
+        document.getElementById("timer").innerText = time;
+
+        if(time <= 0){
+            clearInterval(countdown);
+            alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
+        }
+
+        time--;
+
+    },1000);
+}
+
+async function payPi() {
+  alert("Donate button clicked");
+
+  try {
+    if (typeof Pi === "undefined") {
+      alert("Pi SDK Load થયું નથી");
+      return;
+    }
+
+    await Pi.createPayment(
+      {
+        amount: 0.01,
+        memo: "Balopasna Donation",
+        metadata: {
+          purpose: "donation"
+        }
+      },
+      {
+        onReadyForServerApproval(paymentId) {
+          alert("Payment Started");
+        },
+
+        onReadyForServerCompletion(paymentId, txid) {
+          alert("Payment Successful!");
+        },
+
+        onCancel(paymentId) {
+          alert("Payment Cancelled");
+        },
+
+        onError(error) {
+          alert("Payment Error");
+          console.log(error);
+        }
+      }
+    );
+
+  } catch (e) {
+    alert("Catch Error: " + e.message);
+  }
+}
+</script>
 </div>
 
 </div>
