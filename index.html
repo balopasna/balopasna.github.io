@@ -166,7 +166,77 @@ Donate 0.01 Pi
 </button>
 </div>
 
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
 <script>
+Pi.init({ version: "2.0", sandbox: false });
+
+async function loginPi() {
+  try {
+    const auth = await Pi.authenticate(
+      ['username', 'payments'],
+      function(payment) {
+        console.log(payment);
+      }
+    );
+
+    alert("Welcome " + auth.user.username);
+
+  } catch (err) {
+    alert("Login failed");
+    console.log(err);
+  }
+}
+
+async function payPi() {
+  alert("Donate button clicked");
+
+  try {
+    await Pi.createPayment(
+      {
+        amount: 0.01,
+        memo: "Balopasna Donation",
+        metadata: {
+          purpose: "donation"
+        }
+      },
+      {
+        onReadyForServerApproval(paymentId) {
+          alert("Payment Started");
+          console.log(paymentId);
+        },
+
+        onReadyForServerCompletion(paymentId, txid) {
+          alert("Payment Successful!");
+          console.log(txid);
+        },
+
+        onCancel(paymentId) {
+          alert("Payment Cancelled");
+          console.log(paymentId);
+        },
+
+        onError(error) {
+          alert("Payment Error: " + JSON.stringify(error));
+          console.log(error);
+        }
+      }
+    );
+
+  } catch (e) {
+    alert("Catch Error: " + e.message);
+    console.log(e);
+  }
+}
+
+let count = localStorage.getItem("upasana") || 0;
+
+function countUpasana(){
+    count++;
+    localStorage.setItem("upasana", count);
+    document.getElementById("count").innerText = count;
+}
+
 let countdown;
 
 function startTimer(seconds){
@@ -188,46 +258,8 @@ function startTimer(seconds){
     },1000);
 }
 
-async function payPi() {
-  alert("Donate button clicked");
-
-  try {
-    if (typeof Pi === "undefined") {
-      alert("Pi SDK Load થયું નથી");
-      return;
-    }
-
-    await Pi.createPayment(
-      {
-        amount: 0.01,
-        memo: "Balopasna Donation",
-        metadata: {
-          purpose: "donation"
-        }
-      },
-      {
-        onReadyForServerApproval(paymentId) {
-          alert("Payment Started");
-        },
-
-        onReadyForServerCompletion(paymentId, txid) {
-          alert("Payment Successful!");
-        },
-
-        onCancel(paymentId) {
-          alert("Payment Cancelled");
-        },
-
-        onError(error) {
-          alert("Payment Error");
-          console.log(error);
-        }
-      }
-    );
-
-  } catch (e) {
-    alert("Catch Error: " + e.message);
-  }
+window.onload = function(){
+    document.getElementById("count").innerText = count;
 }
 </script>
 </div>
