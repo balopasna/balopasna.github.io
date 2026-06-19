@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="gu">
+<!DOCTYPE html><html lang="gu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Balopasna</title>
-
-<style>
+<title>Balopasna</title><style>
 body{
     font-family: Arial, sans-serif;
-    background:#f4f4f4;
     margin:0;
+    background:#f4f4f4;
 }
 
 header{
@@ -25,10 +22,10 @@ header{
 
 .card{
     background:white;
-    margin:10px 0;
+    margin-bottom:15px;
     padding:15px;
-    border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+    border-radius:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
 
 button{
@@ -36,7 +33,7 @@ button{
     color:white;
     border:none;
     padding:10px 20px;
-    border-radius:5px;
+    border-radius:6px;
     cursor:pointer;
     margin:5px;
 }
@@ -52,16 +49,13 @@ button:hover{
 #timer{
     font-size:32px;
     font-weight:bold;
+    color:#ff6600;
 }
-</style>
-
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-
-<script>
+</style><script src="https://sdk.minepi.com/pi-sdk.js"></script><script>
 
 Pi.init({
-    version: "2.0",
-    sandbox: false
+    version:"2.0",
+    sandbox:false
 });
 
 let currentUser = null;
@@ -77,7 +71,10 @@ async function loginPi(){
 
         currentUser = auth.user;
 
-        alert("Welcome " + auth.user.username);
+        document.getElementById("user").innerText =
+        "👤 " + auth.user.username;
+
+        alert("સ્વાગત છે " + auth.user.username);
 
     }catch(err){
 
@@ -85,7 +82,6 @@ async function loginPi(){
         alert("Login Failed");
 
     }
-
 }
 
 async function payPi(){
@@ -95,7 +91,66 @@ async function payPi(){
         return;
     }
 
-    alert("Pi Payment માટે Backend Server જરૂરી છે.");
+    try{
+
+        await Pi.createPayment(
+        {
+            amount:0.01,
+            memo:"Balopasna Donation",
+            metadata:{
+                type:"donation"
+            }
+        },
+
+        {
+            onReadyForServerApproval: async function(paymentId){
+
+                await fetch(
+                "https://balopasna-github-io.onrender.com/approve",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        paymentId
+                    })
+                });
+
+            },
+
+            onReadyForServerCompletion: async function(paymentId,txid){
+
+                await fetch(
+                "https://balopasna-github-io.onrender.com/complete",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        paymentId,
+                        txid
+                    })
+                });
+
+                alert("દાન સફળ થયું 🙏");
+
+            },
+
+            onCancel:function(){
+                alert("Payment Cancelled");
+            },
+
+            onError:function(error){
+                console.log(error);
+                alert("Payment Error");
+            }
+        });
+
+    }catch(e){
+        console.log(e);
+    }
 }
 
 let count = localStorage.getItem("upasana") || 0;
@@ -104,10 +159,9 @@ function countUpasana(){
 
     count++;
 
-    localStorage.setItem("upasana", count);
+    localStorage.setItem("upasana",count);
 
     document.getElementById("count").innerText = count;
-
 }
 
 let countdown;
@@ -131,11 +185,9 @@ function startTimer(seconds){
             clearInterval(countdown);
 
             alert("પ્રાણાયામ પૂર્ણ થયું 🕉️");
-
         }
 
     },1000);
-
 }
 
 window.onload = function(){
@@ -143,118 +195,53 @@ window.onload = function(){
     document.getElementById("count").innerText = count;
 
 }
-</script>
-
-</head>
-
-<body>
-
-<header>
+</script></head><body><header>
 <h1>🕉️ Balopasna</h1>
 <p>શરીર, મન અને આત્માની ઉપાસના</p>
-</header>
-
-<div class="container">
-
-<div class="card center">
+</header><div class="container"><div class="card center">
+<h3 id="user">Pi User Not Logged In</h3>
 <button onclick="loginPi()">Login with Pi</button>
-</div>
-
-<div class="card">
+</div><div class="card">
 <h2>🕉️ ગાયત્રી મંત્ર</h2>
-
 <p>
 ૐ ભૂર્ ભુવઃ સ્વઃ ।<br>
 તત્ સવિતુર્વરેણ્યં ।<br>
 ભર્ગો દેવસ્ય ધીમહિ ।<br>
 ધિયો યો નઃ પ્રચોદયાત્ ॥
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Gayatri+Mantra" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
-
-</div>
-
-<div class="card">
+</div><div class="card">
 <h2>🙏 મહામૃત્યુંજય મંત્ર</h2>
-
 <p>
 ૐ ત્ર્યંબકં યજામહે સુગંધિં પુષ્ટિવર્ધનમ્ ।<br>
 ઉર્વારુકમિવ બંધનાન્ મૃત્યોર્મુક્ષીય મામૃતાત્ ॥
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Mahamrityunjaya+Mantra" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
-
-</div>
-
-<div class="card">
-<h2>🌬️ અનુલોમ વિલોમ</h2>
-
+</div><div class="card">
+<h2>🌞 સૂર્યનમસ્કાર</h2>
 <p>
-ડાબા નાસિકાથી શ્વાસ લો.<br>
-જમણા નાસિકાથી છોડો.<br>
-પછી જમણાથી લો અને ડાબાથી છોડો.<br>
-દરરોજ 5 થી 10 મિનિટ કરો.
+દરરોજ 12 સૂર્યનમસ્કાર કરવાથી શરીર મજબૂત બને છે અને મન એકાગ્ર બને છે.
 </p>
-
-<a href="https://www.youtube.com/results?search_query=Anulom+Vilom+Pranayama" target="_blank">
-<button>🎥 વિડિયો જુઓ</button>
-</a>
-
-</div>
-
-<div class="card center">
-
-<h2>📿 દૈનિક ઉપાસના ટ્રેકર</h2>
-
-<p>કુલ ઉપાસના: <span id="count">0</span></p>
-
-<button onclick="countUpasana()">
+</div><div class="card">
+<h2>🧘 યોગ અને પ્રાણાયામ</h2>
+<p>
+અનુલોમ વિલોમ, કપાલભાતી અને ભ્રામરીનો નિયમિત અભ્યાસ કરો.
+</p>
+</div><div class="card center">
+<h2>📿 ઉપાસના કાઉન્ટર</h2>
+<p>કુલ ઉપાસના: <span id="count">0</span></p><button onclick="countUpasana()">
 આજની ઉપાસના પૂર્ણ
 </button>
-
-</div>
-
-<div class="card center">
-
-<h2>⏱️ પ્રાણાયામ ટાઈમર</h2>
-
-<p id="timer">60</p>
-
-<button onclick="startTimer(60)">1 મિનિટ</button>
-
+</div><div class="card center">
+<h2>⏱️ પ્રાણાયામ ટાઈમર</h2><p id="timer">60</p><button onclick="startTimer(60)">1 મિનિટ</button>
 <button onclick="startTimer(300)">5 મિનિટ</button>
-
 <button onclick="startTimer(600)">10 મિનિટ</button>
 
-</div>
-
-<div class="card center">
-
-<h2>💰 Pi Donation</h2>
-
-<p>Balopasna App ને સહયોગ આપો</p>
-
-<button onclick="payPi()">
+</div><div class="card center">
+<h2>💰 Pi Donation</h2><p>Balopasna App ને સહયોગ આપો</p><button onclick="payPi()">
 Donate 0.01 Pi
 </button>
-
-</div>
-
-<div class="card center">
-
-<h2>🎵 ભજન અને ધ્યાન સંગીત</h2>
-
-<a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
-<button>🎵 સંગીત સાંભળો</button>
+</div><div class="card center">
+<h2>🎵 ભજન અને ધ્યાન સંગીત</h2><a href="https://www.youtube.com/results?search_query=Bhajan+Meditation+Music" target="_blank">
+<button>સંગીત સાંભળો</button>
 </a>
-
-</div>
-
-</div>
-
-</body>
+</div></div></body>
 </html>
